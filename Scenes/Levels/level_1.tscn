@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://dqcj0xotu68xg"]
 
 [ext_resource type="Texture2D" uid="uid://78pehu0r5g6w" path="res://Assets/Grids/Dark/texture_04.png" id="1_q84dj"]
-[ext_resource type="PackedScene" uid="uid://bkvfxa7pamfbi" path="res://Scenes/Characters/y_bot.tscn" id="2_tnj8j"]
+[ext_resource type="PackedScene" uid="uid://glt202ks0yqa" path="res://Scenes/Characters/y_bot.tscn" id="2_k4bvb"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vcbwt"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -77,4 +77,4 @@ size = Vector3(50, 5, 0.1)
 
 [node name="players" type="Node3D" parent="."]
 
-[node name="Y Bot" parent="players" instance=ExtResource("2_tnj8j")]
+[node name="Y-Bot" parent="players" instance=ExtResource("2_k4bvb")]
