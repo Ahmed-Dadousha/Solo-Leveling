@@ -1,0 +1,89 @@
+[gd_scene load_steps=4 format=3 uid="uid://cyfipdq7div7e"]
+
+[ext_resource type="Script" path="res://Scripts/ui.gd" id="1_0eo3d"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yusul"]
+bg_color = Color(0, 0, 0, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8x53l"]
+bg_color = Color(0.403922, 0.752941, 0.192157, 1)
+
+[node name="UI" type="CanvasLayer"]
+script = ExtResource("1_0eo3d")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FPSContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+offset_right = 112.0
+offset_bottom = 69.0
+
+[node name="FPS" type="Label" parent="Control/FPSContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 50
+text = "FPS: "
+
+[node name="AmmoContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -276.0
+offset_bottom = 69.0
+grow_horizontal = 0
+
+[node name="Ammo" type="Label" parent="Control/AmmoContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 50
+text = "Ammo: "
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -242.0
+offset_top = -89.0
+offset_right = 242.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_bottom = 20
+
+[node name="healthContainer" type="Control" parent="Control/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/MarginContainer/healthContainer"]
+layout_mode = 2
+offset_right = 87.0
+offset_bottom = 69.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 50
+text = "200"
+horizontal_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="Control/MarginContainer/healthContainer"]
+layout_mode = 2
+offset_left = 100.0
+offset_right = 493.0
+offset_bottom = 69.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_yusul")
+theme_override_styles/fill = SubResource("StyleBoxFlat_8x53l")
+max_value = 200.0
+value = 200.0
+show_percentage = false
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
