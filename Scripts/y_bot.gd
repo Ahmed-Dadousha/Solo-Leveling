@@ -6,7 +6,7 @@ extends CharacterBody3D
 const SPEED = 4.0
 const MAX_SPEED: int = 7
 const JUMP_VELOCITY = 4.5
-const SENS_HORIZONTAL: float = .5
+const SENS: float = .5
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -17,8 +17,9 @@ func _ready():
 
 func _input(event):
 	if event is InputEventMouseMotion:
-		rotate_y(deg_to_rad(-event.relative.x * SENS_HORIZONTAL))
-		
+		rotate_y(deg_to_rad(-event.relative.x * SENS))
+		$camera_mount/SpringArm3D/Camera3D.rotate_x(deg_to_rad(-event.relative.y * SENS))
+		$camera_mount/SpringArm3D/Camera3D.rotation.x = clamp($camera_mount/SpringArm3D/Camera3D.rotation.x, deg_to_rad(-10), deg_to_rad(45))
 func _physics_process(delta):
 	# Add the gravity.
 	if not is_on_floor():

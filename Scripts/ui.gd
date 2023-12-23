@@ -4,7 +4,6 @@ extends CanvasLayer
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	GameManager.connect("stats_changed", change_stats)
-	$Timer.start()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
@@ -21,5 +20,7 @@ func change_stats():
 	var stylebox: StyleBox = $Control/MarginContainer/healthContainer/ProgressBar.get("theme_override_styles/fill")
 	stylebox.bg_color.h = lerp(0.0,0.3,GameManager.health/200.0)
 
-func _on_timer_timeout():
-	GameManager.health -= 10
+
+
+func _on_center_container_draw():
+	$CenterContainer.draw_circle(Vector2(0,0), 5.0, Color.BLACK)
