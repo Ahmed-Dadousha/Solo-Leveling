@@ -12,14 +12,35 @@ const SENS: float = .5
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var is_running: bool = false
 
+#
+@export var speed: float = 5.0
+@export var acceleration: float = 4.0
+@export var jump_speed: float = 8.0
+@export var rotation_speed: float = 12.0
+@export var mouse_sensitivity: float = 0.0015
+
+var jumping: bool = false
+@onready var spring_arm: SpringArm3D = $SpringArm3D
+@onready var rig: Node3D = $visuals
+
+
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _input(event):
-	if event is InputEventMouseMotion:
-		rotate_y(deg_to_rad(-event.relative.x * SENS))
-		$camera_mount/SpringArm3D/Camera3D.rotate_x(deg_to_rad(-event.relative.y * SENS))
-		$camera_mount/SpringArm3D/Camera3D.rotation.x = clamp($camera_mount/SpringArm3D/Camera3D.rotation.x, deg_to_rad(-10), deg_to_rad(45))
+		if is_running:
+				var tween: Tween = create_tween()
+				tween.tween_property(spring_arm, "rotation",Vector3(0,0,0), .2).from_current()
+				
+		if event is InputEventMouseMotion:
+			if is_running:
+				rotate_y(deg_to_rad(-event.relative.x * SENS))
+			else:
+				spring_arm.rotation.x -= event.relative.y * mouse_sensitivity
+				spring_arm.rotation_degrees.x = clamp(spring_arm.rotation_degrees.x, -90.0, 30.0)
+				spring_arm.rotation.y -= event.relative.x * mouse_sensitivity
+				
+
 func _physics_process(delta):
 	# Add the gravity.
 	if not is_on_floor():
@@ -43,13 +64,14 @@ func _physics_process(delta):
 
 	if is_running:
 		# Get new run direction
-		var  run_direction = (transform.basis * Vector3(0, 0,-1)).normalized()
+		var  run_direction = (transform.basis * Vector3(0,0,-1)).normalized()
 		if animation_player.current_animation != "RunningWithoutWeapon/mixamo_com":
 			animation_player.play("RunningWithoutWeapon/mixamo_com")
 			
 		velocity.x = run_direction.x * MAX_SPEED
 		velocity.z = run_direction.z * MAX_SPEED
 		visuals.look_at(position + run_direction)
+		#visuals.rotation = Vector3($SpringArm3D.rotation.x, $SpringArm3D.rotation.y, 0)
 	if direction:
 		is_running = false
 
