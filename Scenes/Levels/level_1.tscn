@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://dqcj0xotu68xg"]
+[gd_scene load_steps=13 format=3 uid="uid://dqcj0xotu68xg"]
 
 [ext_resource type="Script" path="res://Scripts/level_1.gd" id="1_a15bl"]
 [ext_resource type="Texture2D" uid="uid://78pehu0r5g6w" path="res://Assets/Grids/Dark/texture_04.png" id="1_q84dj"]
 [ext_resource type="PackedScene" uid="uid://glt202ks0yqa" path="res://Scenes/Characters/y_bot.tscn" id="2_k4bvb"]
 [ext_resource type="Texture2D" uid="uid://chfn1iyg8h86w" path="res://Assets/Grids/Light/texture_09.png" id="2_uv2nu"]
+[ext_resource type="PackedScene" uid="uid://cyfipdq7div7e" path="res://Scenes/UI/ui.tscn" id="6_2wl6i"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vcbwt"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -108,3 +109,5 @@ size = Vector3(1, 0.1, 1)
 
 [node name="1" type="Marker3D" parent="map/stands/stand1" groups=["pos"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.26498, 0)
+
+[node name="UI" parent="." instance=ExtResource("6_2wl6i")]

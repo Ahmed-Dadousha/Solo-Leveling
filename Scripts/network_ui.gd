@@ -43,6 +43,7 @@ func _on_start_pressed():
 func _on_exit_pressed():
 	NetworkManager.disconnectFromTheServer()
 	
+	$TransitionLayer.visible = false
 	$MainControlsContainer.visible = true
 	$LobbyControlsContainer/HBoxContainer/Start.visible = false
 	$LobbyControlsContainer.visible = false

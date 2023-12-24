@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 GameManager="*res://Scripts/GameManager.gd"
 NetworkManager="*res://Scripts/NetworkManager.gd"
+TransitionLayer="*res://Scenes/UI/TransitionLayer.tscn"
 
 [input]
 

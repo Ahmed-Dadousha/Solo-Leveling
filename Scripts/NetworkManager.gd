@@ -130,22 +130,27 @@ func register_player(newPlayerData):
 @rpc("any_peer", "call_local")
 func nextScene():
 	# Change Scene to Gane Scene
-	#await Transitiontscn.animate()
+	TransitionLayer.visible = true
+	await TransitionLayer.animate()
+	
 	get_tree().change_scene_to_file(NextScene)
-
+	
+	TransitionLayer.visible = true
+	await TransitionLayer.animate_reverse()
+	
 @rpc("any_peer", "call_local")
 func removePlayer(id: int):
 	get_node(str(id)).queue_free()
 	
 # My Custem Functions
-func checkName():
+func checkName() -> void:
 	playerData["name"] = "Unknown" if playerData["name"].strip_edges() == "" else playerData["name"]
 
-func checkAddress():
+func checkAddress() -> void:
 	# To check if it is null
 	address = "127.0.0.1" if address.strip_edges() == "" else address
 
-func printPlayersData():
+func printPlayersData() -> void:
 	print("\nThere Is [" + str(GameManager.playersLoaded) + "] Players\n")
 	
 	for player in GameManager.players.keys():
@@ -153,14 +158,14 @@ func printPlayersData():
 		
 	print("\n")
 
-func multiplayerFunc():
+func multiplayerFunc() -> void:
 	multiplayer.peer_connected.connect(playerConnected)
 	multiplayer.peer_disconnected.connect(playerDisconnected)
 	multiplayer.connected_to_server.connect(serverConnected)
 	multiplayer.server_disconnected.connect(serverDisconnected)
 	multiplayer.connection_failed.connect(connectionFailed)
 
-func disconnectFromTheServer():
+func disconnectFromTheServer() -> void:
 	multiplayer.multiplayer_peer = null
 	multiplayer.peer_connected.disconnect(playerConnected)
 	multiplayer.peer_disconnected.disconnect(playerDisconnected)

@@ -4,6 +4,7 @@ extends Node3D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+
 	NetworkManager.connect("player_disconnected", playerDisconnected)
 	
 	# Create Players 
@@ -15,6 +16,9 @@ func _ready():
 		for spawn in get_tree().get_nodes_in_group("pos"):
 			if spawn.name == str(GameManager.players[player]["index"]):
 				curretntPlayer.global_position = spawn.global_position	
-
+				if spawn.name == str(0):
+					curretntPlayer.rotation_degrees.y = 180
+		
+	
 func playerDisconnected(id):
 	get_node(str(id)).queue_free()
