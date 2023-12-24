@@ -3,8 +3,8 @@ extends CharacterBody3D
 @onready var animation_player: AnimationPlayer = $"visuals/Root Scene/AnimationPlayer"
 @onready var visuals: Node3D = $visuals
 
-const SPEED = 4.0
-const MAX_SPEED: int = 7
+const SPEED = 3.0
+const MAX_SPEED: int = 6
 const JUMP_VELOCITY = 4.5
 const SENS: float = .6
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -13,23 +13,21 @@ var is_running: bool = false
 var dir: Vector3
 #
 @export var mouse_sensitivity: float = 0.0020
-@onready var spring_arm: SpringArm3D = $SpringArm3D
-
+@onready var camera_mount = $camera_mount
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	dir = Vector3.BACK.rotated(Vector3.UP, spring_arm.global_transform.basis.get_euler().y)
+	dir = Vector3.BACK.rotated(Vector3.UP, camera_mount.global_transform.basis.get_euler().y)
 
 func _input(event):
 		if event is InputEventMouseMotion:
-			
 			if is_running:
 				rotate_y(deg_to_rad(-event.relative.x * SENS))
-				spring_arm.rotation.x -= event.relative.y * mouse_sensitivity
+				camera_mount.rotation.x -= event.relative.y * mouse_sensitivity
 			else:
-				spring_arm.rotation.x -= event.relative.y * mouse_sensitivity
-				spring_arm.rotation_degrees.x = clamp(spring_arm.rotation_degrees.x, -90.0, 30.0)
-				spring_arm.rotation.y -= event.relative.x * mouse_sensitivity
+				camera_mount.rotation.x -= event.relative.y * mouse_sensitivity
+				camera_mount.rotation_degrees.x = clamp(camera_mount.rotation_degrees.x, -90.0, 30.0)
+				camera_mount.rotation.y -= event.relative.x * mouse_sensitivity
 				
 
 func _physics_process(delta):
@@ -52,7 +50,7 @@ func _physics_process(delta):
 	if is_running:
 		# Get new run direction
 		var  run_direction = (transform.basis * Vector3(0,0,-1)).normalized()
-		var run_dir = run_direction.rotated(Vector3.UP, spring_arm.transform.basis.get_euler().y).normalized()
+		var run_dir = run_direction.rotated(Vector3.UP, camera_mount.transform.basis.get_euler().y).normalized()
 		
 		if animation_player.current_animation != "RunningWithoutWeapon/mixamo_com":
 			animation_player.play("RunningWithoutWeapon/mixamo_com")
@@ -63,7 +61,7 @@ func _physics_process(delta):
 		
 	if direction:
 		
-		dir = direction.rotated(Vector3.UP, spring_arm.transform.basis.get_euler().y).normalized()
+		dir = direction.rotated(Vector3.UP, camera_mount.transform.basis.get_euler().y).normalized()
 		
 		is_running = false
 
