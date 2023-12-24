@@ -6,12 +6,11 @@ extends CharacterBody3D
 const SPEED = 4.0
 const MAX_SPEED: int = 7
 const JUMP_VELOCITY = 4.5
-const SENS: float = .5
-var angle 
+const SENS: float = .6
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var is_running: bool = false
-var dir
+var dir: Vector3
 #
 @export var mouse_sensitivity: float = 0.0020
 @onready var spring_arm: SpringArm3D = $SpringArm3D
@@ -26,6 +25,7 @@ func _input(event):
 			
 			if is_running:
 				rotate_y(deg_to_rad(-event.relative.x * SENS))
+				spring_arm.rotation.x -= event.relative.y * mouse_sensitivity
 			else:
 				spring_arm.rotation.x -= event.relative.y * mouse_sensitivity
 				spring_arm.rotation_degrees.x = clamp(spring_arm.rotation_degrees.x, -90.0, 30.0)
@@ -71,7 +71,9 @@ func _physics_process(delta):
 			animation_player.play("WalkingWithoutWeapon/mixamo_com")
 		velocity.x = dir.x * SPEED
 		velocity.z = dir.z * SPEED
+
 		visuals.look_at(position + dir)
+
 		
 	elif !direction && !is_running:
 		if animation_player.current_animation != "IdleWithoutWeapon/mixamo_com":
