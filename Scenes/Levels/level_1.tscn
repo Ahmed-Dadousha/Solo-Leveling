@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://dqcj0xotu68xg"]
+[gd_scene load_steps=12 format=3 uid="uid://dqcj0xotu68xg"]
 
+[ext_resource type="Script" path="res://Scripts/level_1.gd" id="1_a15bl"]
 [ext_resource type="Texture2D" uid="uid://78pehu0r5g6w" path="res://Assets/Grids/Dark/texture_04.png" id="1_q84dj"]
 [ext_resource type="PackedScene" uid="uid://glt202ks0yqa" path="res://Scenes/Characters/y_bot.tscn" id="2_k4bvb"]
-[ext_resource type="Texture2D" uid="uid://bdw2j5kejiegc" path="res://Assets/Grids/Dark/texture_01.png" id="2_vrffx"]
+[ext_resource type="Texture2D" uid="uid://chfn1iyg8h86w" path="res://Assets/Grids/Light/texture_09.png" id="2_uv2nu"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vcbwt"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -25,11 +26,15 @@ uv1_triplanar = true
 albedo_texture = ExtResource("1_q84dj")
 uv1_triplanar = true
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7xmni"]
-albedo_texture = ExtResource("2_vrffx")
-uv1_triplanar = true
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pp1cl"]
+albedo_texture = ExtResource("2_uv2nu")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_akdwu"]
+albedo_texture = ExtResource("2_uv2nu")
 
 [node name="Level1" type="Node3D"]
+script = ExtResource("1_a15bl")
+playerScene = ExtResource("2_k4bvb")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_jr0pl")
@@ -48,7 +53,9 @@ collision_layer = 2
 collision_mask = 3
 size = Vector3(50, 0.1, 50)
 
-[node name="Wall1" type="CSGBox3D" parent="map"]
+[node name="walls" type="Node3D" parent="map"]
+
+[node name="Wall1" type="CSGBox3D" parent="map/walls"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.45821, 25)
 material_override = SubResource("StandardMaterial3D_pqb56")
 use_collision = true
@@ -56,7 +63,7 @@ collision_layer = 2
 collision_mask = 3
 size = Vector3(50, 5, 0.1)
 
-[node name="Wall2" type="CSGBox3D" parent="map"]
+[node name="Wall2" type="CSGBox3D" parent="map/walls"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.45821, -25)
 material_override = SubResource("StandardMaterial3D_pqb56")
 use_collision = true
@@ -64,7 +71,7 @@ collision_layer = 2
 collision_mask = 3
 size = Vector3(50, 5, 0.1)
 
-[node name="Wall3" type="CSGBox3D" parent="map"]
+[node name="Wall3" type="CSGBox3D" parent="map/walls"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -25, 2.45821, 0.015466)
 material_override = SubResource("StandardMaterial3D_pqb56")
 use_collision = true
@@ -72,7 +79,7 @@ collision_layer = 2
 collision_mask = 3
 size = Vector3(50, 5, 0.1)
 
-[node name="Wall4" type="CSGBox3D" parent="map"]
+[node name="Wall4" type="CSGBox3D" parent="map/walls"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 24.8701, 2.45821, 0.015466)
 material_override = SubResource("StandardMaterial3D_pqb56")
 use_collision = true
@@ -80,14 +87,24 @@ collision_layer = 2
 collision_mask = 3
 size = Vector3(50, 5, 0.1)
 
-[node name="CSGBox3D" type="CSGBox3D" parent="map"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.40108, -3.6245)
-material_override = SubResource("StandardMaterial3D_7xmni")
+[node name="stands" type="Node3D" parent="map"]
+
+[node name="stand0" type="CSGBox3D" parent="map/stands"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00566661, -23.0147)
+material_override = SubResource("StandardMaterial3D_pp1cl")
 use_collision = true
-collision_layer = 2
-collision_mask = 3
-size = Vector3(5, 5, 0.1)
+collision_layer = 3
+size = Vector3(1, 0.1, 1)
 
-[node name="players" type="Node3D" parent="."]
+[node name="0" type="Marker3D" parent="map/stands/stand0" groups=["pos"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.168787, 0)
 
-[node name="Y-Bot" parent="players" instance=ExtResource("2_k4bvb")]
+[node name="stand1" type="CSGBox3D" parent="map/stands"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00566661, 22.8746)
+material_override = SubResource("StandardMaterial3D_akdwu")
+use_collision = true
+collision_layer = 3
+size = Vector3(1, 0.1, 1)
+
+[node name="1" type="Marker3D" parent="map/stands/stand1" groups=["pos"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.26498, 0)

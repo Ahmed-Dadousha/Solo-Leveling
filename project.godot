@@ -11,18 +11,14 @@ config_version=5
 [application]
 
 config/name="Solo-Leveling"
-run/main_scene="res://Scenes/Levels/level_1.tscn"
+run/main_scene="res://Scenes/UI/network_ui.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 config/icon="res://icon.svg"
 
 [autoload]
 
 GameManager="*res://Scripts/GameManager.gd"
-
-[display]
-
-window/size/viewport_width=1920
-window/size/viewport_height=1080
+NetworkManager="*res://Scripts/NetworkManager.gd"
 
 [input]
 
