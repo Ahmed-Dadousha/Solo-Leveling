@@ -15,17 +15,12 @@ var is_jumping: bool = false
 #
 @export var mouse_sensitivity: float = 0.0020
 @onready var camera_mount = $camera_mount
+@onready var bullet: PackedScene = preload("res://Scenes/Bullets/bullet.tscn")
+@onready var ray_cast: RayCast3D = $camera_mount/RayCast3D
+var instance
 
-enum animations {
-	IDLE,
-	RUN,
-	JUMP,
-	CROUCH,
-	WEAPON_IDLE,
-	WEAPON_RUN,
-	WEAPON_CROUCH,
-	WEAPON_JUMP,
-	FIRE}
+
+var animation: Dictionary = {}
 
 func _enter_tree():
 	# To avoid control other players charcter
@@ -33,19 +28,26 @@ func _enter_tree():
 
 func _ready():
 	if not is_multiplayer_authority(): return
-	#Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	dir = Vector3.BACK.rotated(Vector3.UP, camera_mount.global_transform.basis.get_euler().y)
 
 func _input(event):
-		if event is InputEventMouseMotion:
-			if is_running:
-				rotate_y(deg_to_rad(-event.relative.x * SENS))
-				camera_mount.rotation.x -= event.relative.y * mouse_sensitivity
-			else:
-				camera_mount.rotation.x -= event.relative.y * mouse_sensitivity
-				camera_mount.rotation_degrees.x = clamp(camera_mount.rotation_degrees.x, -90.0, 30.0)
-				camera_mount.rotation.y -= event.relative.x * mouse_sensitivity				
-
+	if event is InputEventMouseMotion:
+		if is_running:
+			rotate_y(deg_to_rad(-event.relative.x * SENS))
+			camera_mount.rotation.x -= event.relative.y * mouse_sensitivity
+		else:
+			camera_mount.rotation.x -= event.relative.y * mouse_sensitivity
+			camera_mount.rotation_degrees.x = clamp(camera_mount.rotation_degrees.x, -90.0, 30.0)
+			camera_mount.rotation.y -= event.relative.x * mouse_sensitivity				
+	
+	if event.is_action_pressed("fire"):
+		instance = bullet.instantiate()
+		instance.position = ray_cast.global_position
+		instance.transform.basis = ray_cast.global_transform.basis
+		instance.scale = Vector3(0.1,0.1,0.1)
+		get_parent().add_child(instance)
+		
 func _physics_process(delta):
 	if not is_multiplayer_authority(): return
 	# Add the gravity.

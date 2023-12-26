@@ -22,4 +22,4 @@ func change_stats():
 
 
 func _on_center_container_draw():
-	$CenterContainer.draw_circle(Vector2(0,0), 5.0, Color.BLACK)
+	$CenterContainer.draw_circle(Vector2($CenterContainer.size.x/2,$CenterContainer.size.y), 5.0, Color.BLACK)
